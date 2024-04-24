@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Login";
+}
+@model LoginViewModel
+@if (User.Identity.IsAuthenticated)
+{
+    <script type="text/javascript">
+        window.location.href = '@Url.Action("Index", "Students")';
+    </script>
+}
+
+
+
+<!-- Section -->
+<section class="min-vh-100 d-flex align-items-center section-image overlay-soft-dark"
+    data-background="~/assets/img/pages/form-image.jpg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div
+                    class="signin-inner my-4 my-lg-0 bg-white shadow-soft border rounded border-gray-300 p-4 p-lg-5 w-100 fmxw-500">
+                    <div class="text-center text-md-center mb-4 mt-md-0">
+                        <h1 class="mb-0 h3">Sign in to our platform</h1>
+                    </div>
+                    <form asp-action="LogIn" asp-controller="Auth" method="post" class="mt-4">
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Email">Your Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span
+                                        class="fas fa-envelope"></span></span>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="example@company.com" id="email"
+                                    required>
+                            </div>
+                            @Html.ValidationMessageFor(a => a.Email,"",new {@class="text-danger"})
+                        </div>
+                        <!-- End of Form -->
+                        <div class="form-group">
+                            <!-- Form -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Password">Your Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon2"><span
+                                            class="fas fa-unlock-alt"></span></span>
+                                    <input asp-for="Password" type="password" placeholder="Password" class="form-control" id="password"
+                                        required>
+                                </div>
+                                @Html.ValidationMessageFor(a => a.Password,"",new {@class="text-danger"})
+                            </div>
+                            <!-- End of Form -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                
+                                <div><a asp-action="ForgotPassword" asp-controller="Home" class="small text-right">Lost password?</a></div>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                    </form>
+                    
+                    <div class="d-flex justify-content-center align-items-center mt-4">
+                        <span class="fw-normal">
+                            Not registered?
+                            <a asp-action="SignIn" asp-controller="Home" class="fw-bold text-underline">Create account</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
