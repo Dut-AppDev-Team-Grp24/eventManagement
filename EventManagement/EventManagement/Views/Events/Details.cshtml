@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Details";
+}
+@model Event
+
+<!----------------Hero--------------------------->
+<section class="section section-header bg-primary-app text-dark pb-md-10">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-12 col-md-12 text-center">
+                <img class="d-none d-md-inline-block" src="@Model.ImageUrl" alt="Mobile App Mockup">
+            </div>
+        </div>
+        <div class="row">
+           <input type="hidden" id="event-id" value="@Model.Id">
+            <div class="col-12 col-lg-9">
+                <div class="date">
+                    <p>
+                        <em>
+                            <!-- Output: Wed Nov 2, 7:30 PM -->
+                            @Model.StartTime.ToString("ddd MMM dd, h:mm tt")
+                        </em>
+                    </p>
+                </div>
+                <div class="title">
+                    <h2>@Model.EventName</h2>
+                </div>
+                <div class="description">
+                    <p class="lead">
+                        @Model.EventDescription
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-3">
+                @if(User.IsInRole("User")){
+                <button 
+                    type="button"
+                    class="btn btn-primary"
+                    id="buy-ticket-btn">
+                    Buy Ticket
+                </button>
+                <div class="price">
+                    <p>*from <span class="ticket-price">@Model.PricePerTicket</span></p>
+                </div>
+                }
+                else{
+                <button 
+                    type="button"
+                    class="btn btn-primary"
+                    id="edit-event-btn">
+                    Edit Event
+                </button>
+                <div class="price">
+                    <p>*from <span class="ticket-price">@Model.PricePerTicket</span></p>
+                </div>
+                }
+                
+            </div>
+        </div>  
+    </div>
+</section>
+<!-------End Of Hero ---------------------->

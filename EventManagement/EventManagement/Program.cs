@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text;
-using EventManagement;
+using EventManagement.Models;
 using EventManagement.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +49,14 @@ builder.Services.AddAuthentication(auth =>
 
 builder.Services.AddSingleton<JwtHelper>();
 
+builder.Services.AddScoped<AzureBlobRepository>(sp => {
+    var a = new AzureBlobRepository(
+        "DefaultEndpointsProtocol=https;AccountName=grp24apda;AccountKey=Ii7o8VXeVrJaCuYnFmwRYAjfnJ9qKYqC6UCXdESd6lJCdytBTEhDffwM2WhB+91r0kkYEHtZZwrh+AStX5QZig==;EndpointSuffix=core.windows.net",
+        "images"
+    );
+    return a;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -83,6 +91,6 @@ app.UseDeveloperExceptionPage();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

@@ -7,12 +7,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Helper
 {
     public class JwtHelper
     {
-
+        AppDBContext context;
         const string Token = "verversecretToken:)";
         public string CreateAuthenticationTicket(User user)
         {
@@ -34,21 +35,25 @@ namespace EventManagement.Helper
 
         private IEnumerable<Claim> GetUserClaims(User user)
         {
+            var op = new DbContextOptionsBuilder<AppDBContext>();
+                op.UseSqlite("Data Source=Data/EventManagement.db");
+            context = new AppDBContext(op.Options);
             List<Claim> claims = new List<Claim>();
             Claim _claim;
             _claim = new Claim(ClaimTypes.Name, user.Name);
             claims.Add(_claim);
 
-            string role = user.RoleId;
+            string roleName = "User";
+            var role = context.Roles.FirstOrDefault(a => a.Id == user.RoleId);
 
-            _claim = new Claim(ClaimTypes.Role, role);
+            if(role != null) roleName = role.RoleName;
+
+            _claim = new Claim(ClaimTypes.Role, roleName);
             claims.Add(_claim);
+
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
             return claims.AsEnumerable();
         }
     }
-
-
-
-
 }

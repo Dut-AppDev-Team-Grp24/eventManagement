@@ -2,7 +2,12 @@
     ViewData["Title"] = "SignUp";
 }
 @model SigUpViewModel
-
+@if (User.Identity.IsAuthenticated)
+{
+    <script type="text/javascript">
+        window.location.href = '@Url.Action("Index", "Home")';
+    </script>
+}
 
 
 

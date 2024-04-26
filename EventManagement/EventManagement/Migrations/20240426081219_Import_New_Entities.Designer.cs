@@ -11,17 +11,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240420162253_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240426081219_Import_New_Entities")]
+    partial class Import_New_Entities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.11");
 
             modelBuilder.Entity("EventManagement.Models.Event", b =>
                 {
-                    b.Property<string>("EventId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -40,7 +40,21 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("EventStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("PricePerTicket")
+                        .HasColumnType("REAL");
+
                     b.Property<DateTime>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TicketId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -51,14 +65,61 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("EventId");
+                    b.HasKey("Id");
 
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("EventManagement.Models.EventCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ec63d38e-b672-4aba-92e3-3b54c1cc29d424/04/26/08:12:18",
+                            EventCategoryName = "Music"
+                        },
+                        new
+                        {
+                            Id = "7178f2e1-e75d-473f-b9dc-80f94f403d0d24/04/26/08:12:18",
+                            EventCategoryName = "Sports"
+                        },
+                        new
+                        {
+                            Id = "83754b46-f7a7-443e-9a2d-e5b908a807c424/04/26/08:12:18",
+                            EventCategoryName = "Movies"
+                        },
+                        new
+                        {
+                            Id = "fcf094b2-b445-4b7b-b2e6-88095218a79b24/04/26/08:12:18",
+                            EventCategoryName = "Business"
+                        },
+                        new
+                        {
+                            Id = "8ce7d4d8-b28b-4e93-8e86-57e9fff766f424/04/26/08:12:18",
+                            EventCategoryName = "Conference"
+                        },
+                        new
+                        {
+                            Id = "f7b2267b-1d77-44a9-8cc0-b2d85582735b24/04/26/08:12:18",
+                            EventCategoryName = "Food & Drinks"
+                        });
+                });
+
             modelBuilder.Entity("EventManagement.Models.EventPromotion", b =>
                 {
-                    b.Property<string>("PromotionId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -82,14 +143,14 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("PromotionId");
+                    b.HasKey("Id");
 
                     b.ToTable("EventPromotions");
                 });
 
             modelBuilder.Entity("EventManagement.Models.Payment", b =>
                 {
-                    b.Property<string>("PaymentId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -112,14 +173,14 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("PaymentId");
+                    b.HasKey("Id");
 
                     b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("EventManagement.Models.Resource", b =>
                 {
-                    b.Property<string>("ResourceId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -145,7 +206,7 @@ namespace EventManagement.Migrations
                     b.Property<string>("VenueId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ResourceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("VenueId");
 
@@ -154,7 +215,7 @@ namespace EventManagement.Migrations
 
             modelBuilder.Entity("EventManagement.Models.Role", b =>
                 {
-                    b.Property<string>("RoleId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -162,16 +223,36 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("RoleId");
+                    b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "86d6064c-c71b-41e0-823f-d3fd77c0ac6424/04/26/08:12:18",
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "40cfdef8-c6b9-4052-ac15-fd1a0cd3682b24/04/26/08:12:18",
+                            RoleName = "User"
+                        },
+                        new
+                        {
+                            Id = "36d35280-cd28-459d-a614-145bc35159d624/04/26/08:12:18",
+                            RoleName = "EventManager"
+                        });
                 });
 
             modelBuilder.Entity("EventManagement.Models.Ticket", b =>
                 {
-                    b.Property<string>("TicketId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<double>("Commission")
+                        .HasColumnType("REAL");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("TEXT");
@@ -183,17 +264,27 @@ namespace EventManagement.Migrations
                     b.Property<DateTime>("ExpiryTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Type")
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("VAT")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("type")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("TicketId");
+                    b.HasKey("Id");
 
                     b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("EventManagement.Models.User", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -210,6 +301,10 @@ namespace EventManagement.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -237,14 +332,61 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d1feccb0-7312-43d2-876f-c242f923d4be24/04/26/08:12:18",
+                            City = "Durban",
+                            Country = "South Africa",
+                            Email = "admin@event-management.com",
+                            Name = "Admin",
+                            Password = "Admin@123",
+                            PhoneNumber = "071231234",
+                            Province = "KwaZulu-Natal",
+                            RoleId = "86d6064c-c71b-41e0-823f-d3fd77c0ac6424/04/26/08:12:18",
+                            StreetAddress = "123 Eve st",
+                            Surname = "User",
+                            ZipCode = "4000"
+                        },
+                        new
+                        {
+                            Id = "4e27594b-b223-4e93-9d2e-cd69050f447224/04/26/08:12:18",
+                            City = "Durban",
+                            Country = "South Africa",
+                            Email = "johndoe@event-management.com",
+                            Name = "John",
+                            Password = "Manager@123",
+                            PhoneNumber = "071231234",
+                            Province = "KwaZulu-Natal",
+                            RoleId = "36d35280-cd28-459d-a614-145bc35159d624/04/26/08:12:18",
+                            StreetAddress = "123 Eve st",
+                            Surname = "Doe",
+                            ZipCode = "4000"
+                        },
+                        new
+                        {
+                            Id = "64724da9-4a47-4060-bd46-78608228485524/04/26/08:12:18",
+                            City = "Durban",
+                            Country = "South Africa",
+                            Email = "Sizwe@yahoo.com",
+                            Name = "Sizwe",
+                            Password = "User@123",
+                            PhoneNumber = "071231234",
+                            Province = "KwaZulu-Natal",
+                            RoleId = "40cfdef8-c6b9-4052-ac15-fd1a0cd3682b24/04/26/08:12:18",
+                            StreetAddress = "123 Eve st",
+                            Surname = "Mchunu",
+                            ZipCode = "4000"
+                        });
                 });
 
             modelBuilder.Entity("EventManagement.Models.Venue", b =>
                 {
-                    b.Property<string>("VenueId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -256,9 +398,8 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Province")
                         .IsRequired()
@@ -267,6 +408,9 @@ namespace EventManagement.Migrations
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("VenueCapacity")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("VenueDescription")
                         .IsRequired()
@@ -284,9 +428,25 @@ namespace EventManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("VenueId");
+                    b.HasKey("Id");
 
                     b.ToTable("Venues");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9c41231c-44a5-4bd3-9294-0ec9ba5ba7aa24/04/26/08:12:18",
+                            City = "Durban",
+                            Country = "South Africa",
+                            Price = 500.0,
+                            Province = "KwaZulu-Natal",
+                            StreetAddress = "123 Eve st",
+                            VenueCapacity = 250,
+                            VenueDescription = "Lion Park Safari Lodge & Conference Center",
+                            VenueName = "Lion Park Safari Lodge & Conference Center",
+                            VenuePictureUrl = "https://lionandsafaripark.com/wp-content/uploads/2020/02/venue-functions2.png",
+                            ZipCode = "4000"
+                        });
                 });
 
             modelBuilder.Entity("EventManagement.Models.Resource", b =>
